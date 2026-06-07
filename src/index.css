@@ -399,6 +399,58 @@ body {
   color: var(--text);
   will-change: transform;
 }
+
+/* Responsive overrides (global, do NOT change Work section rules) */
+@media (max-width: 1024px) {
+  /* reduce horizontal padding for main sections */
+  section[id="hero"],
+  #about,
+  #contact,
+  footer,
+  .marquee-outer {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+
+  /* make hero spacing more compact on tablet */
+  #hero {
+    padding-top: 48px !important;
+    padding-bottom: 40px !important;
+  }
+
+  /* reposition scroll indicator on smaller screens */
+  .hero-scroll {
+    right: 12px !important;
+    bottom: 12px !important;
+  }
+
+  /* marquee gutters */
+  .marquee-inner { padding-left: 12px !important; padding-right: 12px !important; }
+
+  footer { padding: 20px !important; }
+}
+
+@media (max-width: 640px) {
+  /* tighter mobile paddings */
+  nav { padding-left: 12px !important; padding-right: 12px !important; max-width: 100% !important; border-radius: 0 !important; }
+  section[id="hero"], #about, #contact, footer, .marquee-outer { padding-left: 16px !important; padding-right: 16px !important; }
+
+  /* scale hero name down on small phones while preserving clamp behavior */
+  .hero-name h1 { font-size: clamp(48px, 12vw, 140px) !important; }
+
+  /* ensure hero subtext and CTAs wrap cleanly */
+  .hero-sub { max-width: 100% !important; }
+  .hero .flex { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; }
+
+  /* hide decorative scroll indicator on small screens */
+  .hero-scroll { display: none !important; }
+
+  /* marquee spacing adjustments */
+  .marquee-inner { gap: 12px !important; }
+
+  /* small helpers */
+  .line-wrapper { padding-left: 0 !important; padding-right: 0 !important; }
+}
 .work-story-intro > p:not(.section-label) {
   max-width: 520px;
   margin-top: 36px;
@@ -589,12 +641,12 @@ body {
   text-decoration: none;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 991px) {
   .work-story-section {
     padding: 96px 24px 0;
   }
   .work-story-intro {
-    min-height: 68vh;
+    min-height: unset;
   }
   .work-story-entry-image {
     margin: -10vh auto 10vh;
@@ -612,6 +664,33 @@ body {
   }
   .work-story-image {
     aspect-ratio: 0.9 / 1;
+  }
+    .work-story-detail h3{
+    font-size: clamp(28px, 6vw, 64px);
+    }
+
+  /* On small screens disable absolute layering so items stack naturally */
+  .work-story-card-layer,
+  .work-story-detail-layer {
+    position: static;
+    inset: auto;
+    display: block;
+    opacity: 1;
+    transform: none;
+  }
+
+  .work-story-visual {
+    min-height: auto;
+  }
+
+  .work-story-details {
+    padding-top: 28px;
+    min-height: auto;
+  }
+
+  .work-story-image-frame img {
+    height: auto;
+    object-fit: cover;
   }
 }
 

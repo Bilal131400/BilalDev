@@ -52,7 +52,7 @@ export default function Navbar() {
         BK<span style={{ color: "var(--accent)" }}>.</span>
       </a>
       <div
-        className={`flex  gap-3 transition-all ease-in-out duration-300 ${scrolled ? "flex-row" : "flex-col"}`}
+        className={`flex  gap-3 transition-all ease-in-out duration-300 ${scrolled ? "flex-row" : "flex-row lg:flex-col"}`}
       >
         {[
           ["Work", "#work"],

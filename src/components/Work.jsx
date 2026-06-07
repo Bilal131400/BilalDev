@@ -72,7 +72,10 @@ function ProjectImage({ project }) {
 
 function ProjectDetails({ project }) {
   return (
-    <div className="work-story-detail">
+    <div className="work-story-detail lg:mb-0 mb-4">
+      <div className="lg:hidden block mb-4">
+        <img src={project.image} alt={`${project.title} preview`} />
+      </div>
       <div className="work-story-detail-head">
         <span>{project.num}</span>
         <h3 data-cursor="hero">{project.title}</h3>
@@ -107,126 +110,193 @@ export default function Work() {
   const detailRefs = useRef([]);
 
   useEffect(() => {
+    let mm;
     const ctx = gsap.context(() => {
-      gsap.set(headingRef.current, { scale: 2.8, transformOrigin: "center" });
-      gsap.set(leadRef.current, { opacity: 0, y: 22 });
-      gsap.set(entryImageRef.current, { y: 180, scale: 0.64, opacity: 0 });
+      // Use ScrollTrigger.matchMedia to enable pinning only on wider viewports
+      mm = ScrollTrigger.matchMedia({
+        "(min-width: 992px)": () => {
+          gsap.set(headingRef.current, {
+            scale: 2.8,
+            transformOrigin: "center",
+          });
+          gsap.set(leadRef.current, { opacity: 0, y: 22 });
+          gsap.set(entryImageRef.current, { y: 180, scale: 0.64, opacity: 0 });
 
-      gsap
-        .timeline({
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 72%",
-            end: "+=620",
-            scrub: 1,
-          },
-        })
-        .to(headingRef.current, { scale: 1, duration: 1, ease: "none" }, 0)
-        .to(leadRef.current, { opacity: 1, y: 0, duration: 0.45 }, 0.15)
-        .to(
-          entryImageRef.current,
-          { y: 0, scale: 1, opacity: 1, duration: 0.85, ease: "power2.out" },
-          0.2,
-        );
+          gsap
+            .timeline({
+              scrollTrigger: {
+                trigger: sectionRef.current,
+                start: "top 72%",
+                end: "+=620",
+                scrub: 1,
+              },
+            })
+            .to(headingRef.current, { scale: 1, duration: 1, ease: "none" }, 0)
+            .to(leadRef.current, { opacity: 1, y: 0, duration: 0.45 }, 0.15)
+            .to(
+              entryImageRef.current,
+              {
+                y: 0,
+                scale: 1,
+                opacity: 1,
+                duration: 0.85,
+                ease: "power2.out",
+              },
+              0.2,
+            );
 
-      gsap.set(cardRefs.current, {
-        yPercent: 110,
-        scale: 1,
-        opacity: 0,
-      });
-      gsap.set(cardRefs.current[0], {
-        yPercent: 0,
-        opacity: 1,
-      });
-      gsap.set(detailRefs.current, {
-        autoAlpha: 0,
-        x: 56,
-      });
-      gsap.set(detailRefs.current[0], {
-        autoAlpha: 0,
-        x: 56,
-      });
-      gsap.set(visualRef.current, {
-        xPercent: 36,
-        scale: 1.08,
-        transformOrigin: "center",
-      });
+          gsap.set(cardRefs.current, {
+            yPercent: 110,
+            scale: 1,
+            opacity: 0,
+          });
+          gsap.set(cardRefs.current[0], {
+            yPercent: 0,
+            opacity: 1,
+          });
+          gsap.set(detailRefs.current, {
+            autoAlpha: 0,
+            x: 56,
+          });
+          gsap.set(detailRefs.current[0], {
+            autoAlpha: 0,
+            x: 56,
+          });
+          gsap.set(visualRef.current, {
+            xPercent: 36,
+            scale: 1.08,
+            transformOrigin: "center",
+          });
 
-      const pinTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: pinRef.current,
-          start: "top top",
-          end: () => `+=${window.innerHeight * (projects.length + 1)}`,
-          pin: true,
-          scrub: 1,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
+          const pinTl = gsap.timeline({
+            scrollTrigger: {
+              trigger: pinRef.current,
+              start: "top top",
+              end: () => `+=${window.innerHeight * (projects.length + 1)}`,
+              pin: true,
+              scrub: 1,
+              anticipatePin: 1,
+              invalidateOnRefresh: true,
+            },
+          });
+
+          pinTl
+            .to(visualRef.current, {
+              xPercent: 0,
+              scale: 0.82,
+              duration: 1,
+              ease: "power2.inOut",
+            })
+            .to(
+              detailRefs.current[0],
+              { autoAlpha: 1, x: 0, duration: 0.55, ease: "power2.out" },
+              0.45,
+            );
+
+          projects.forEach((_, index) => {
+            if (index === 0) return;
+
+            pinTl
+              .to(
+                cardRefs.current[index],
+                {
+                  yPercent: 0,
+                  opacity: 1,
+                  duration: 1,
+                  ease: "power2.inOut",
+                },
+                index + 0.2,
+              )
+              .to(
+                cardRefs.current[index - 1],
+                {
+                  scale: 0.94,
+                  yPercent: -7,
+                  opacity: 0.42,
+                  duration: 1,
+                  ease: "power2.inOut",
+                },
+                index + 0.2,
+              )
+              .to(
+                detailRefs.current[index - 1],
+                {
+                  autoAlpha: 0,
+                  x: -34,
+                  duration: 0.35,
+                  ease: "power2.in",
+                },
+                index + 0.2,
+              )
+              .fromTo(
+                detailRefs.current[index],
+                { autoAlpha: 0, x: 56 },
+                {
+                  autoAlpha: 1,
+                  x: 0,
+                  duration: 0.55,
+                  ease: "power2.out",
+                },
+                index + 0.48,
+              );
+          });
         },
-      });
 
-      pinTl
-        .to(visualRef.current, {
-          xPercent: 0,
-          scale: 0.82,
-          duration: 1,
-          ease: "power2.inOut",
-        })
-        .to(
-          detailRefs.current[0],
-          { autoAlpha: 1, x: 0, duration: 0.55, ease: "power2.out" },
-          0.45,
-        );
-
-      projects.forEach((_, index) => {
-        if (index === 0) return;
-
-        pinTl
-          .to(
-            cardRefs.current[index],
+        // Mobile / small screens: disable pin and use simple reveal animations
+        "(max-width: 991px)": () => {
+          gsap.set(headingRef.current, { scale: 1, transformOrigin: "center" });
+          gsap.set(leadRef.current, { opacity: 0, y: 22 });
+          gsap.fromTo(
+            leadRef.current,
+            { opacity: 0, y: 22 },
             {
+              opacity: 1,
+              y: 0,
+              duration: 0.7,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: leadRef.current,
+                start: "top 90%",
+                once: true,
+              },
+            },
+          );
+
+          projects.forEach((_, index) => {
+            gsap.set(cardRefs.current[index], { yPercent: 10, opacity: 0 });
+            gsap.to(cardRefs.current[index], {
               yPercent: 0,
               opacity: 1,
-              duration: 1,
-              ease: "power2.inOut",
-            },
-            index + 0.2,
-          )
-          .to(
-            cardRefs.current[index - 1],
-            {
-              scale: 0.94,
-              yPercent: -7,
-              opacity: 0.42,
-              duration: 1,
-              ease: "power2.inOut",
-            },
-            index + 0.2,
-          )
-          .to(
-            detailRefs.current[index - 1],
-            {
-              autoAlpha: 0,
-              x: -34,
-              duration: 0.35,
-              ease: "power2.in",
-            },
-            index + 0.2,
-          )
-          .fromTo(
-            detailRefs.current[index],
-            { autoAlpha: 0, x: 56 },
-            {
+              duration: 0.7,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: cardRefs.current[index],
+                start: "top 85%",
+                toggleActions: "play none none reverse",
+              },
+            });
+
+            gsap.set(detailRefs.current[index], { autoAlpha: 0, x: 0 });
+            gsap.to(detailRefs.current[index], {
               autoAlpha: 1,
               x: 0,
-              duration: 0.55,
-              ease: "power2.out",
-            },
-            index + 0.48,
-          );
+              duration: 0.6,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: detailRefs.current[index],
+                start: "top 85%",
+                toggleActions: "play none none reverse",
+              },
+            });
+          });
+        },
       });
     }, sectionRef);
 
-    return () => ctx.revert();
+    return () => {
+      if (mm && mm.revert) mm.revert();
+      ctx.revert();
+    };
   }, []);
 
   return (
@@ -243,7 +313,7 @@ export default function Work() {
 
       <div className="">
         <div ref={pinRef} className="work-story-pin overflow-hidden">
-          <div ref={visualRef} className="work-story-visual">
+          <div ref={visualRef} className="work-story-visual md:block hidden">
             {projects.map((project, index) => (
               <div
                 key={project.title}
