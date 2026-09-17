@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import InteractivePlanet from "./InteractivePlanet";
 
 export default function Hero() {
   const rootRef = useRef(null);
@@ -91,7 +92,10 @@ export default function Hero() {
           borderRadius: "50%",
         }}
       />
-      <div className="pt-28 mt-28">
+      <div className="absolute top-0 right-[-25%] w-full h-full">
+        <InteractivePlanet />
+      </div>
+      <div className="pt-28 mt-28 relative z-10 w-fit">
         <div>
           <p
             className="mb-1"
@@ -106,37 +110,39 @@ export default function Hero() {
             Creative Developer
           </p>
         </div>
-        <div className="hero-name" data-cursor="hero">
-          <div className="line-wrapper">
-          <h1
-            className="hero-l1"
-            style={{
-              fontFamily: "Syne, sans-serif",
-              fontWeight: 800,
-              fontSize: "clamp(80px, 13.5vw, 200px)",
-              lineHeight: 0.88,
-              letterSpacing: "-0.04em",
-              color: "var(--text)",
-            }}
-          >
-            Bilal
-          </h1>
-          </div>
+        <div className="">
+          <div className="hero-name" data-cursor="hero">
+            <div className="line-wrapper">
+              <h1
+                className="hero-l1"
+                style={{
+                  fontFamily: "Syne, sans-serif",
+                  fontWeight: 800,
+                  fontSize: "clamp(80px, 13.5vw, 200px)",
+                  lineHeight: 0.88,
+                  letterSpacing: "-0.04em",
+                  color: "var(--text)",
+                }}
+              >
+                Bilal
+              </h1>
+            </div>
 
-          <div className="line-wrapper flex items-baseline gap-6 flex-wrap">
-          <h1
-            className="hero-l2"
-            style={{
-              fontFamily: "Syne, sans-serif",
-              fontWeight: 800,
-              fontSize: "clamp(80px, 13.5vw, 200px)",
-              lineHeight: 0.88,
-              letterSpacing: "-0.04em",
-              color: "var(--accent)",
-            }}
-          >
-            Khuram
-          </h1>
+            <div className="line-wrapper flex items-baseline gap-6 flex-wrap">
+              <h1
+                className="hero-l2"
+                style={{
+                  fontFamily: "Syne, sans-serif",
+                  fontWeight: 800,
+                  fontSize: "clamp(80px, 13.5vw, 200px)",
+                  lineHeight: 0.88,
+                  letterSpacing: "-0.04em",
+                  color: "var(--accent)",
+                }}
+              >
+                Khuram
+              </h1>
+            </div>
           </div>
         </div>
 
@@ -151,7 +157,7 @@ export default function Hero() {
               letterSpacing: "0.02em",
             }}
           >
-            — crafting the web, one pixel at a time
+            crafting the web, one pixel at a time
           </p>
         </div>
       </div>
