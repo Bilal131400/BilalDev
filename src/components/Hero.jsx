@@ -92,7 +92,7 @@ export default function Hero() {
           borderRadius: "50%",
         }}
       />
-      <div className="absolute top-0 right-[-25%] w-full h-full">
+      <div className="hero-planet absolute top-0 right-[-25%] w-full h-full">
         <InteractivePlanet />
       </div>
       <div className="pt-28 mt-28 relative z-10 w-fit">

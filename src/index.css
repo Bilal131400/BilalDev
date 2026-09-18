@@ -79,6 +79,17 @@ body {
 .hero-name:hover .hero-l2 {
   transform: translateX(-8px);
 }
+.hero-planet {
+  display: block;
+}
+@media (max-width: 767px) {
+  .hero-planet {
+    width: 120%;
+    height: 40%;
+    top: 4%;
+    right: -20%;
+  }
+}
  body{
   scroll-behavior: smooth;
  }

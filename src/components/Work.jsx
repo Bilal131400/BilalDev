@@ -306,7 +306,7 @@ export default function Work() {
           Selected Work
         </h2>
         <p ref={leadRef} data-cursor="hero">
-          A few builds where frontend craft, product thinking, and motion come
+          A few builds where crafting, product thinking, and motion come
           together.
         </p>
       </div>
